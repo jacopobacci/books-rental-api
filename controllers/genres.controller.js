@@ -22,8 +22,8 @@ exports.update = async (req, res) => {
   const { name } = req.body;
 
   const genre = await Genre.findByIdAndUpdate(id, { name }, { new: true });
-
   if (!genre) return res.status(404).send("The genre with the given ID was not found.");
+
   res.send(genre);
 };
 
@@ -31,6 +31,15 @@ exports.delete = async (req, res) => {
   const { id } = req.params;
 
   const genre = await Genre.findByIdAndDelete(id);
+  if (!genre) return res.status(404).send("The genre with the given ID was not found.");
+
+  res.send(genre);
+};
+
+exports.getSingle = async (req, res) => {
+  const { id } = req.params;
+  const genre = await Genre.findById(id);
+
   if (!genre) return res.status(404).send("The genre with the given ID was not found.");
 
   res.send(genre);

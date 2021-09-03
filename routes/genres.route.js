@@ -9,5 +9,6 @@ router.post("/", [validateMdw(validate), auth], genres.create);
 router.put("/:id", [validateMdw(validate), auth], genres.update);
 router.get("/", genres.get);
 router.delete("/:id", [validateMdw(validate), auth], genres.delete);
+router.get("/:id", genres.getSingle);
 
 module.exports = router;

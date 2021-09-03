@@ -1,4 +1,6 @@
 const express = require("express");
+const Joi = require("joi");
+const passwordComplexity = require("joi-password-complexity");
 const router = express.Router();
 const auth = require("../controllers/auth.controller");
 const validateMdw = require("../middleware/validate");
