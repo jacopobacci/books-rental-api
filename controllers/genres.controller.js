@@ -1,4 +1,4 @@
-const { Genre, validate } = require("../models/genre.model");
+const { Genre } = require("../models/genre.model");
 
 exports.get = async (req, res) => {
   const genres = await Genre.find().sort("name");
@@ -7,9 +7,6 @@ exports.get = async (req, res) => {
 
 exports.create = async (req, res) => {
   const { name } = req.body;
-  const { error } = validate(req.body);
-
-  if (error) return res.status(400).send(error.details[0].message);
 
   let genre = await Genre.findOne({ name });
   if (genre) return res.status(400).send("This genre already exists.");
@@ -23,8 +20,6 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
 
   const genre = await Genre.findByIdAndUpdate(id, { name }, { new: true });
 
@@ -33,5 +28,10 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  res.status(401).send("Unauthorized.");
+  const { id } = req.params;
+
+  const genre = await Genre.findByIdAndDelete(id);
+  if (!genre) return res.status(404).send("The genre with the given ID was not found.");
+
+  res.send(genre);
 };

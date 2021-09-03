@@ -12,6 +12,13 @@ const genres = require("./routes/genres.route");
 
 const app = express();
 
+process.on("uncaughtException", (err) => {
+  console.error(err.message, err);
+});
+process.on("unhandledRejection", (err) => {
+  console.error(err.message, err);
+});
+
 app.use(express.json());
 app.use("/api/users", users);
 app.use("/api/auth", auth);

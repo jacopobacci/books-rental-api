@@ -7,9 +7,7 @@ exports.me = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  const { error } = validate(req.body);
   const { name, email, password } = req.body;
-  if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email });
   if (user) return res.status(400).send("User already registered.");

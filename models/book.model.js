@@ -1,4 +1,5 @@
-const Joi = require("joi");
+const Joi = require("joi-oid");
+
 const mongoose = require("mongoose");
 
 const Book = mongoose.model(
@@ -7,7 +8,13 @@ const Book = mongoose.model(
     title: {
       type: String,
       required: true,
-      minlength: 5,
+      minlength: 1,
+      maxlength: 50,
+    },
+    author: {
+      type: String,
+      required: true,
+      minlength: 1,
       maxlength: 50,
     },
     image: {
@@ -19,6 +26,11 @@ const Book = mongoose.model(
       ref: "Genre",
       required: true,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     description: {
       type: String,
       required: true,
@@ -28,6 +40,7 @@ const Book = mongoose.model(
     isAvailable: {
       type: Boolean,
       required: true,
+      default: true,
     },
     reviews: [
       {
@@ -40,15 +53,15 @@ const Book = mongoose.model(
 
 function validateBook(book) {
   const schema = Joi.object({
-    title: Joi.string().min(5).max(50).required(),
+    title: Joi.string().min(1).max(50).required(),
+    author: Joi.string().min(1).max(50).required(),
     image: Joi.string().required(),
-    genre: Joi.objectId().required(),
     description: Joi.string().min(5).max(1024).required(),
     isAvailable: Joi.boolean(),
-  });
+  }).options({ allowUnknown: true });
 
   return schema.validate(book);
 }
 
-exports.book = Book;
+exports.Book = Book;
 exports.validate = validateBook;

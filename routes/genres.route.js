@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const genres = require("../controllers/genres.controller");
 const auth = require("../middleware/auth");
+const validateMdw = require("../middleware/validate");
+const { validate } = require("../models/genre.model");
 
-router.post("/", auth, genres.create);
-router.put("/:id", auth, genres.update);
+router.post("/", [validateMdw(validate), auth], genres.create);
+router.put("/:id", [validateMdw(validate), auth], genres.update);
 router.get("/", genres.get);
-router.delete("/:id", genres.delete);
+router.delete("/:id", [validateMdw(validate), auth], genres.delete);
 
 module.exports = router;
