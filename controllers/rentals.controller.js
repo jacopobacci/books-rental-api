@@ -4,7 +4,7 @@ const { Book } = require("../models/book.model");
 
 exports.get = async (req, res) => {
   const rentals = await Rental.find({}).sort("-dateOut").populate("customer").populate("book");
-  if (!rentals) return res.status(404).send("There are no rental at the moment.");
+  if (!rentals) return res.status(404).send("There are no rentals at the moment.");
 
   res.send(rentals);
 };

@@ -5,15 +5,27 @@ const Review = mongoose.model(
   "Review",
   new mongoose.Schema(
     {
-      title: {
+      rating: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5,
+      },
+      content: {
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 50,
+        maxlength: 512,
       },
-      author: {
-        type: Schema.Types.ObjectId,
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
+      },
+      book: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
+        required: true,
       },
     },
     { timestamps: true }
@@ -22,12 +34,13 @@ const Review = mongoose.model(
 
 function validateReview(review) {
   const schema = Joi.object({
-    title: Joi.string().min(5).max(50).required(),
+    rating: Joi.number().min(0).max(5).required(),
+    content: Joi.string().min(5).max(512).required(),
     author: Joi.objectId().required(),
   });
 
   return schema.validate(review);
 }
 
-exports.review = Review;
+exports.Review = Review;
 exports.validate = validateReview;

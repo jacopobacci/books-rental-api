@@ -11,6 +11,7 @@ const books = require("./routes/books.route");
 const customers = require("./routes/customers.route");
 const genres = require("./routes/genres.route");
 const rentals = require("./routes/rentals.route");
+const reviews = require("./routes/reviews.route");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/books", books);
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
 app.use("/api/rentals", rentals);
+app.use("/api/reviews", reviews);
 app.use(error);
 
 const db = config.get("db");
