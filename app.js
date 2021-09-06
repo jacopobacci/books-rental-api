@@ -10,6 +10,7 @@ const config = require("config");
 const books = require("./routes/books.route");
 const customers = require("./routes/customers.route");
 const genres = require("./routes/genres.route");
+const rentals = require("./routes/rentals.route");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/auth", auth);
 app.use("/api/books", books);
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
+app.use("/api/rentals", rentals);
 app.use(error);
 
 const db = config.get("db");

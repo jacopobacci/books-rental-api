@@ -1,9 +1,13 @@
-const { User, validate } = require("../models/user.model");
+const { User } = require("../models/user.model");
+const { Customer } = require("../models/customer.model");
 const bcrypt = require("bcrypt");
 
 exports.me = async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
-  res.send(user);
+  const user = await User.findById(req.user._id).select("-password -isAdmin");
+
+  const customer = await Customer.findOne({ user: req.user._id }).select("-user").populate("favouriteGenres");
+
+  res.send({ user, customer });
 };
 
 exports.register = async (req, res) => {
@@ -21,3 +25,7 @@ exports.register = async (req, res) => {
   const token = user.generateAuthToken();
   res.header("x-auth-token", token).send({ _id, firstName, lastName, email });
 };
+
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}

@@ -24,6 +24,11 @@ const customerSchema = new mongoose.Schema({
     type: String,
     reuqired: true,
   },
+  phone: {
+    type: String,
+    required: true,
+    minlength: 5,
+  },
   favouriteGenres: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -41,6 +46,7 @@ function validateCustomer(customer) {
     postalCode: Joi.number().min(4).required(),
     favouriteGenres: Joi.array().items(Joi.string()),
     city: Joi.string().required(),
+    phone: Joi.string().min(5).required(),
   });
 
   return schema.validate(customer);

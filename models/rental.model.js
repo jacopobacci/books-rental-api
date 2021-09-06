@@ -1,24 +1,36 @@
-// const Joi = require("joi");
-// const mongoose = require("mongoose");
+const Joi = require("joi");
+const mongoose = require("mongoose");
 
-// const rentalSchema = new mongoose.Schema({
-//   customer: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Customer",
-//     required: true,
-//   },
-// });
+const rentalSchema = new mongoose.Schema({
+  customer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Customer",
+    required: true,
+  },
+  book: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Book",
+    required: true,
+  },
+  dateOut: {
+    type: Date,
+    default: Date.now,
+  },
+  dateReturned: {
+    type: Date,
+  },
+});
 
-// const Rental = mongoose.model("Rental", rentalSchema);
+const Rental = mongoose.model("Rental", rentalSchema);
 
-// function validateRental(rental) {
-//   const schema = Joi.object({
-//     title: Joi.string().min(5).max(50).required(),
-//     author: Joi.objectId().required(),
-//   });
+function validateRental(rental) {
+  const schema = Joi.object({
+    customer: Joi.required(),
+    book: Joi.required(),
+  });
 
-//   return schema.validate(rental);
-// }
+  return schema.validate(rental);
+}
 
-// exports.rental = Rental;
-// exports.validate = validateRental;
+exports.Rental = Rental;
+exports.validate = validateRental;
