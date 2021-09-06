@@ -10,18 +10,13 @@ exports.get = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { title, author, image, genreName, description } = req.body;
+  const { genre } = req.body;
 
-  const genre = await Genre.findOne({ name: genreName });
-  if (!genre) return res.status(400).send("Invalid genre.");
+  const foundGenre = await Genre.findOne({ name: genre });
+  if (!foundGenre) return res.status(400).send("Invalid genre.");
 
-  const book = new Book({
-    title,
-    author,
-    image,
-    genre: genre._id,
-    description,
-  });
+  const book = await new Book(req.body);
+  book.genre = foundGenre._id;
   book.user = req.user._id;
   console.log(book.user);
   await book.save();

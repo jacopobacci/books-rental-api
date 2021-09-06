@@ -1,7 +1,5 @@
 const { User } = require("../models/user.model");
 const bcrypt = require("bcrypt");
-const Joi = require("joi");
-const passwordComplexity = require("joi-password-complexity");
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;

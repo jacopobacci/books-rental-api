@@ -7,17 +7,17 @@ exports.me = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   let user = await User.findOne({ email });
   if (user) return res.status(400).send("User already registered.");
 
-  user = new User({ name, email, password });
+  user = new User({ firstName, lastName, email, password });
   user.password = await bcrypt.hash(password, 10);
 
   await user.save();
 
   const { _id } = user;
   const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send({ _id, name, email });
+  res.header("x-auth-token", token).send({ _id, firstName, lastName, email });
 };
