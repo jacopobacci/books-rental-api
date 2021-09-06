@@ -35,29 +35,40 @@ exports.create = async (req, res) => {
   res.send(customer);
 };
 
-// exports.update = async (req, res) => {
-//   const { id } = req.params;
+exports.update = async (req, res) => {
+  const { id } = req.params;
 
-//   const book = await Book.findByIdAndUpdate(id, req.body, { new: true });
-//   if (!book) return res.status(404).send("The book with the given ID was not found.");
+  const { favouriteGenres } = req.body;
+  let genreIds = [];
 
-//   res.send(book);
-// };
+  for (let genre of favouriteGenres) {
+    const foundGenre = await Genre.findOne({ name: genre });
+    if (!foundGenre) return res.status(400).send("Invalid genre.");
 
-// exports.delete = async (req, res) => {
-//   const { id } = req.params;
+    genreIds.push(foundGenre._id);
+  }
 
-//   const book = await Book.findByIdAndDelete(id);
-//   if (!book) return res.status(404).send("The book with the given ID was not found.");
+  const customer = await Customer.findByIdAndUpdate(id, { ...req.body, favouriteGenres: genreIds }, { new: true });
 
-//   res.send(book);
-// };
+  if (!customer) return res.status(404).send("The customer with the given ID was not found.");
 
-// exports.getSingle = async (req, res) => {
-//   const { id } = req.params;
-//   const book = await Book.findById(id).populate("genre").populate("user").exec();
+  res.send(customer);
+};
 
-//   if (!book) return res.status(404).send("The book with the given ID was not found.");
+exports.delete = async (req, res) => {
+  const { id } = req.params;
 
-//   res.send(book);
-// };
+  const customer = await Customer.findByIdAndDelete(id);
+  if (!customer) return res.status(404).send("The customer with the given ID was not found.");
+
+  res.send(customer);
+};
+
+exports.getSingle = async (req, res) => {
+  const { id } = req.params;
+  const customer = await Customer.findById(id).populate("favouriteGenres").populate("user");
+
+  if (!customer) return res.status(404).send("The customer with the given ID was not found.");
+
+  res.send(customer);
+};
