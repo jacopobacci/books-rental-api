@@ -7,10 +7,10 @@ router.get("/", reviews.get);
 
 router.post("/:bookId", auth, reviews.create);
 
-// router.put("/:id", auth, reviews.update);
+router.put("/:id", auth, reviews.update);
 
-// router.delete("/:id", auth, reviews.delete);
+router.delete("/:id", auth, reviews.delete);
 
-// router.get("/:id", auth, reviews.getSingle);
+router.get("/:id", auth, reviews.getSingle);
 
 module.exports = router;
