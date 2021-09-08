@@ -47,7 +47,7 @@ const seedUsers = async () => {
         email: faker.internet.email(),
         password: "",
       });
-      user.password = await bcrypt.hash(faker.internet.password(), 10);
+      user.password = await bcrypt.hash("TestPassword123%", 10);
       await user.save();
     }
     console.log("Users created correctly");
