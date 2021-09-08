@@ -45,6 +45,10 @@ app.use("/api/rentals", rentals);
 app.use("/api/reviews", reviews);
 app.use(error);
 
+app.get("/", (req, res) => {
+  res.send("Hello from Books Rental Rest API!");
+});
+
 const db = process.env.DB_URL || config.get("db");
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
