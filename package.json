@@ -6,7 +6,7 @@
   "scripts": {
     "seed": "node seeder.js",
     "test": "jest --watchAll --detectOpenHandles --runInBand --verbose",
-    "start": "node app.js",
+    "start": "NODE_ENV=production node app.js",
     "dev": "NODE_ENV=development nodemon app.js"
   },
   "keywords": [],
