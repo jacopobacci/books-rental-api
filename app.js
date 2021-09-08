@@ -12,8 +12,21 @@ const customers = require("./routes/customers.route");
 const genres = require("./routes/genres.route");
 const rentals = require("./routes/rentals.route");
 const reviews = require("./routes/reviews.route");
+const cors = require("cors");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const compression = require("compression");
 
 const app = express();
+
+app.use(cors());
+app.use(mongoSanitize());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+app.use(compression());
 
 process.on("uncaughtException", (err) => {
   console.error(err.message, err);
@@ -32,11 +45,11 @@ app.use("/api/rentals", rentals);
 app.use("/api/reviews", reviews);
 app.use(error);
 
-const db = config.get("db");
+const db = process.env.DB_URL || config.get("db");
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log(`Connected to ${db}`))
-  .catch((err) => console.error("Could not connect to MongoDB..."));
+  .then(() => console.log(process.env.NODE_ENV !== "production" ? `Connected to ${db}` : "Connected to MongoDB"))
+  .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => console.log(`Listening on port ${port}...`));
