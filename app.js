@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
   res.send("Hello from Books Rental Rest API!");
 });
 
-const db = process.env.DB_URL || config.get("db");
+const db = config.get("db") || process.env.DB_URL;
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log(process.env.NODE_ENV !== "production" ? `Connected to ${db}` : "Connected to MongoDB"))
