@@ -56,7 +56,20 @@ exports.getSingle = async (req, res) => {
   const { id } = req.params;
   const book = await Book.findById(id).populate("genre").populate("user").exec();
 
-  if (!book) return res.status(404).send("The book with the given ID was not found.");
+  if (!book) return res.status(404).send("Invalid book.");
 
   res.send(book);
+};
+
+exports.search = async (req, res) => {
+  const { q } = req.query;
+  const books = await Book.find({ title: { $regex: q, $options: "i" } })
+    .sort("title")
+    .populate("genre")
+    .populate("user", "-password -isAdmin")
+    .populate("reviews", "-user -book");
+
+  if (!books) return res.status(404).send("Invalid search.");
+
+  res.send(books);
 };

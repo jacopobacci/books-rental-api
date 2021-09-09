@@ -7,6 +7,8 @@ const { validate } = require("../models/book.model");
 
 router.get("/", books.get);
 
+router.get("/search", books.search);
+
 router.post("/", [auth, validateMdw(validate)], books.create);
 
 router.put("/:id", [auth, validateMdw(validate)], books.update);
