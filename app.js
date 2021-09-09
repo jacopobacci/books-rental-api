@@ -46,7 +46,7 @@ app.use("/api/reviews", reviews);
 app.use(error);
 
 app.get("/", (req, res) => {
-  res.send("Hello from Books Rental Rest API!");
+  res.send("Hello from Books Rental API!");
 });
 
 const db = process.env.DB_URL || config.get("db");

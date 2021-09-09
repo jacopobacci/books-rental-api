@@ -11,6 +11,6 @@ router.put("/:id", auth, reviews.update);
 
 router.delete("/:id", auth, reviews.delete);
 
-router.get("/:id", auth, reviews.getSingle);
+router.get("/:id", reviews.getSingle);
 
 module.exports = router;
