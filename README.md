@@ -4,7 +4,7 @@
 
 ---
 
-If you want to try the project or tweak it, clone the repo, cd into it and
+If you want to try the project or tweak it: clone the repo, cd into it and
 
 `npm install`
 
